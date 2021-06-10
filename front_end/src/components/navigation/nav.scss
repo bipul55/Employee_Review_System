@@ -1,0 +1,19 @@
+.nav-container {
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  height: 100vh;
+  padding-top: 40%;
+}
+.nav-item {
+  //   border: 0.1px solid black;
+  padding: 10px;
+  width: 80%;
+  border-style: outset;
+  margin: 30px auto;
+  text-decoration: none;
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}
