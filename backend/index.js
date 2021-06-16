@@ -242,6 +242,21 @@ app.get("/get-all-reviews", (req, res) => {
     }
   });
 });
+// get all the reviews
+app.get("/get-my-reviews/:email", (req, res) => {
+  const Email = req.params.email;
+  console.log(Email);
+  const query1 = `SELECT * FROM  reviews WHERE for_user='${Email}'`;
+  db.query(query1, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(result);
+      res.json(result);
+    }
+  });
+});
+
 // delete the review
 app.post("/delete-review", (req, res) => {
   const query1 = `DELETE FROM reviews WHERE id = ${req.body.id};`;
@@ -275,6 +290,24 @@ app.get("/get-image/:name", (req, res) => {
   } else {
     res.sendFile(path.join(__dirname, "/assets", Name));
   }
+});
+
+// get tht profile pic through email
+app.get("/get-image_from_email/:email", async (req, res) => {
+  const Email = req.params.email;
+  const qeury = `SELECT profilePic FROM employees WHERE email ='${Email}'`;
+  db.query(qeury, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      const name = result[0].profilePic;
+      if (name == "null") {
+        res.sendFile(path.join(__dirname, "/assets", "user.png"));
+      } else {
+        res.sendFile(path.join(__dirname, "/assets", name));
+      }
+    }
+  });
 });
 app.listen("9000", () => {
   console.log("backend server started ");

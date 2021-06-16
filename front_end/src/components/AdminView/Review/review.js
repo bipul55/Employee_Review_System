@@ -90,7 +90,7 @@ const Reviews = () => {
               style={{
                 position: "relative",
                 width: "70vw",
-                margin: "auto",
+                margin: "40px auto",
                 // backgroundColor: "#52575d",
                 // height: "60px",
                 padding: "10px",

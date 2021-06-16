@@ -4,9 +4,10 @@ import { Spinner } from "react-bootstrap";
 
 // import { Spinner } from "react-bootstrap";
 import EmployeeView from "./components/employeeView/employeeView";
-// import AdminView from "./components/AdminView/adminView";
+import Nav from "./components/navigation/nav";
 import Container from "./components/AdminView/adminPanel/container";
 import Login from "./components/login/login";
+import My_Reviews from "./components/employeeView/my_review";
 import {
   BrowserRouter as Router,
   Switch,
@@ -22,6 +23,7 @@ const Router1 = () => {
     <div>
       {user.data ? (
         <Router basename={process.env.PUBLIC_URL}>
+          {user.isEmployee ? <Nav /> : <></>}
           <div>
             <Switch>
               <Route
@@ -31,6 +33,18 @@ const Router1 = () => {
                   user.isUser
                     ? user.isEmployee
                       ? EmployeeView
+                      : Container
+                    : Login
+                }
+                EmployeeView
+              />
+              <Route
+                path="/my-reviews"
+                exact
+                component={
+                  user.isUser
+                    ? user.isEmployee
+                      ? My_Reviews
                       : Container
                     : Login
                 }

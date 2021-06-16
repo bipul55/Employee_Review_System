@@ -7,13 +7,27 @@
 }
 .nav-item {
   //   border: 0.1px solid black;
-  padding: 10px;
-  width: 80%;
-  border-style: outset;
-  margin: 30px auto;
+  // padding: 10px;
+  // width: 80%;
+  // border-style: outset;
+  // margin: 30px auto;
   text-decoration: none;
   a {
     text-decoration: none;
     color: black;
+  }
+}
+@media (max-width: 576px) {
+  .nav-item {
+    width: 100%;
+
+    text-decoration: none;
+    a {
+      text-decoration: none;
+      color: black;
+    }
+  }
+  .image {
+    display: none;
   }
 }

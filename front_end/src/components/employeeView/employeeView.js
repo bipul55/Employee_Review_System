@@ -60,16 +60,18 @@ const EmployeeView = () => {
         });
     }
   };
-  const logout = () => {
-    localStorage.removeItem("user");
-    window.location.reload(false);
-  };
+
   useEffect(() => {
     get_pendingReviews(user.email);
+    console.log(user);
   }, []);
 
   return (
-    <div>
+    <div
+      style={{
+        marginTop: "100px",
+      }}
+    >
       <h4
         style={{
           textAlign: "center",
@@ -77,17 +79,6 @@ const EmployeeView = () => {
       >
         Assigned Reviews
       </h4>
-      <div
-        className="btn btn-sm btn-dark"
-        style={{
-          position: "absolute",
-          right: "5px",
-          top: "1px",
-        }}
-        onClick={logout}
-      >
-        Logout
-      </div>
       {pendingReviews && pendingReviews.length > 0 ? (
         <div>
           {pendingReviews.map((node) => {
