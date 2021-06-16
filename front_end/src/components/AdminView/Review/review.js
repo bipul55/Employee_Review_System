@@ -76,6 +76,8 @@ const Reviews = () => {
         node={node}
         setnode={setnode}
         get_reviews={get_reviews}
+        setmessage={setmodalMsg}
+        setshowModal={() => setshowModal(true)}
       />
 
       <br />
@@ -89,29 +91,34 @@ const Reviews = () => {
                 position: "relative",
                 width: "70vw",
                 margin: "auto",
-                backgroundColor: "#52575d",
+                // backgroundColor: "#52575d",
                 // height: "60px",
+                padding: "10px",
+                boxShadow: " 0 1rem 3rem rgba(0, 0, 0, 0.175)",
               }}
             >
-              <div style={{ display: "flex", gap: "50%" }}>
-                <h2
+              <div style={{ display: "flex", gap: "50%", flexWrap: "wrap" }}>
+                <p
                   style={{
-                    color: "white",
+                    fontSize: "16px",
+                    fontWeight: "500",
+                    textAlign: "left",
                   }}
                 >
                   From: {node.by_user}
-                </h2>
-                <h2
+                </p>
+                <p
                   style={{
-                    color: "white",
+                    fontSize: "16px",
+                    textAlign: "left",
+                    fontWeight: "500",
                   }}
                 >
                   To: {node.for_user}
-                </h2>
+                </p>
               </div>
               <p
                 style={{
-                  color: "white",
                   marginTop: "20px",
                 }}
               >
@@ -119,35 +126,25 @@ const Reviews = () => {
               </p>
               <p
                 style={{
-                  textAlign: "center",
-                  color: "white",
+                  textAlign: "left",
                 }}
               >
                 {node.description}
               </p>
 
               <div div className="row">
-                <div className="col-10"></div>
-                <div className="col-2">
-                  {" "}
-                  <DeleteOutlined
-                    style={{
-                      cursor: "pointer",
-                      margin: "20px",
-                      color: "white",
-                    }}
-                    onClick={() => deleteReview(node)}
-                  />
+                <div className="col-7"></div>
+                <div className="col-5">
                   <EditOutlined
-                    style={{
-                      cursor: "pointer",
-                      margin: "20px",
-                      color: "white",
-                    }}
+                    className="icon"
                     onClick={() => {
                       setnode(node);
                       setshowModalEditReview(true);
                     }}
+                  />
+                  <DeleteOutlined
+                    className="icon"
+                    onClick={() => deleteReview(node)}
                   />
                 </div>
               </div>

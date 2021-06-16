@@ -3,7 +3,24 @@ const express = require("express");
 const mysql = require("mysql");
 const app = express();
 const jwt = require("jsonwebtoken");
+const path = require("path");
 require("dotenv").config();
+
+// multer config
+var multer = require("multer");
+// set the sotrage path and file name
+const storage = multer.diskStorage({
+  destination: "./assets",
+  filename: function (req, file, cb) {
+    cb(null, "IMAGE-" + Date.now() + path.extname(file.originalname));
+  },
+});
+// function to upload the file
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 100000000000000 },
+}).single("profilePic");
+
 // Create connection to the database
 const db = mysql.createConnection({
   host: "localhost",
@@ -144,25 +161,58 @@ app.post("/delete-employee", (req, res) => {
 });
 // add the employees
 app.post("/add-employee", (req, res) => {
-  const query1 = ` INSERT INTO employees(name,email,password,isEmployee) VALUES ('${req.body.name}', '${req.body.email}', '${req.body.password}',1);`;
-  db.query(query1, (err, result) => {
-    if (err) {
-      console.log(err);
+  upload(req, res, async (err) => {
+    console.log("Request ---", req.body);
+    console.log("Request file ---", req.file);
+    if (req.file) {
+      const query1 = ` INSERT INTO employees(name,email,password,isEmployee,profilePic) VALUES ('${req.body.name}', '${req.body.email}', '${req.body.password}',1,'${req.file.filename}');`;
+      db.query(query1, (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(result);
+          res.json({ success: true, message: "Employee Added Successfully" });
+        }
+      });
     } else {
-      console.log(result);
-      res.json({ success: true, message: "Employee Added Successfully" });
+      const query1 = ` INSERT INTO employees(name,email,password,isEmployee) VALUES ('${req.body.name}', '${req.body.email}', '${req.body.password}',1);`;
+      db.query(query1, (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(result);
+          res.json({ success: true, message: "Employee Added Successfully" });
+        }
+      });
     }
   });
 });
 // add the employees
 app.post("/update-employee", (req, res) => {
-  const query1 = `UPDATE employees SET name='${req.body.name}', email='${req.body.email}',password= '${req.body.password}'WHERE id=${req.body.id};`;
-  db.query(query1, (err, result) => {
-    if (err) {
-      console.log(err);
+  upload(req, res, async (err) => {
+    console.log("Request ---", req.body);
+    console.log("Request file ---", req.file);
+    if (req.file) {
+      const query1 = `UPDATE employees SET name='${req.body.name}',profilePic='${req.file.filename}',email='${req.body.email}',password= '${req.body.password}'WHERE id=${req.body.id};`;
+      db.query(query1, (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(result);
+          res.json({ success: true, message: "Employee Updated Successfully" });
+        }
+      });
     } else {
-      console.log(result);
-      res.json({ success: true, message: "Employee Updated Successfully" });
+      console.log("here");
+      const query1 = `UPDATE employees SET name='${req.body.name}',email='${req.body.email}',password= '${req.body.password}'WHERE id=${req.body.id};`;
+      db.query(query1, (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(result);
+          res.json({ success: true, message: "Employee Updated Successfully" });
+        }
+      });
     }
   });
 });
@@ -170,15 +220,13 @@ app.post("/update-employee", (req, res) => {
 // add Review Assignment
 app.post("/add-review", (req, res) => {
   console.log(req.body, "here");
-  //   UPDATE Customers
-
   const query1 = `INSERT INTO assigned_reviews(for_user,by_user) VALUES('${req.body.for_user}', '${req.body.by_user}');`;
   db.query(query1, (err, result) => {
     if (err) {
       console.log(err);
     } else {
       console.log(result, "result");
-      res.json({ success: true, message: "Employee Updated Successfully" });
+      res.json({ success: true, message: "Review Added !!!" });
     }
   });
 });
@@ -214,11 +262,20 @@ app.post("/update-review", (req, res) => {
       console.log(err);
     } else {
       console.log(result);
-      res.json({ success: true, message: "Review Deleted Successfully" });
+      res.json({ success: true, message: "Review Updated !!!" });
     }
   });
 });
+// get image
+app.get("/get-image/:name", (req, res) => {
+  const Name = req.params.name;
 
+  if (Name == "null") {
+    res.sendFile(path.join(__dirname, "/assets", "user.png"));
+  } else {
+    res.sendFile(path.join(__dirname, "/assets", Name));
+  }
+});
 app.listen("9000", () => {
   console.log("backend server started ");
 });

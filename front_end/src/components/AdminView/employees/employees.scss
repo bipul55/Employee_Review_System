@@ -1,0 +1,55 @@
+.employee-card {
+  height: 100%;
+  //   background-color: red;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+  padding: 10px;
+}
+.profile-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.icon {
+  margin: 5px;
+  cursor: pointer;
+}
+.icon:hover {
+  color: blue;
+  cursor: pointer;
+}
+.tabs-admin {
+  display: block;
+}
+.nav-item {
+  width: 100% !important;
+}
+
+.admin-logout {
+  // style={{
+  //   width: "80%",
+  //   position: "absolute",
+  //   bottom: "30px",
+  //   left: "50%",
+  //   transform: "translateX(-50%)",
+  // }}
+  width: 80%;
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+@media (max-width: 576px) {
+  .tabs-admin {
+    display: flex !important;
+  }
+  .nav-item {
+    width: 100px !important;
+  }
+  .admin-logout {
+    position: relative;
+    width: 100px;
+    left: 25%;
+    bottom: -1px;
+  }
+}

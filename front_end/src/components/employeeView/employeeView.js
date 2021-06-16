@@ -70,19 +70,19 @@ const EmployeeView = () => {
 
   return (
     <div>
-      <h1
+      <h4
         style={{
           textAlign: "center",
         }}
       >
-        Your Assigned Reviews
-      </h1>
+        Assigned Reviews
+      </h4>
       <div
-        className="btn btn-md btn-dark"
+        className="btn btn-sm btn-dark"
         style={{
           position: "absolute",
-          right: "20px",
-          top: "20px",
+          right: "5px",
+          top: "1px",
         }}
         onClick={logout}
       >
@@ -94,23 +94,33 @@ const EmployeeView = () => {
             return (
               <div
                 key={node.id}
+                // style={{
+                //   position: "relative",
+                //   width: "70vw",
+                //   margin: "auto",
+                //   backgroundColor: "#52575d",
+                //   //   height: "60px",
+                // }}
                 style={{
                   position: "relative",
                   width: "70vw",
-                  margin: "auto",
-                  backgroundColor: "#52575d",
-                  //   height: "60px",
+                  // margin: "auto",
+                  // backgroundColor: "#52575d",
+                  // height: "60px",
+                  padding: "10px",
+                  margin: "40px auto",
+                  boxShadow: " 0 1rem 3rem rgba(0, 0, 0, 0.175)",
                 }}
               >
                 <div>
-                  <h1
+                  <p
                     style={{
-                      color: "white",
-                      margin: "40px",
+                      fontSize: "16px",
+                      fontWeight: "500",
                     }}
                   >
                     Email:<label>{node.for_user}</label>
-                  </h1>
+                  </p>
                 </div>
                 <div
                   style={{
@@ -125,7 +135,9 @@ const EmployeeView = () => {
                       height: "300px",
                       borderRadius: "10px",
                       border: "0px",
-                      backgroundColor: "#ceecfb",
+                      backgroundColor: "rgb(250 250 250)",
+                      // boxShadow: " 0 1rem 3rem rgba(0, 0, 0, 0.175)",
+                      border: "1px solid black",
                       resize: "none",
                     }}
                     placeholder="Review..."

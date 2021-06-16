@@ -22,9 +22,12 @@ const EditReview = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
           if (data.success) {
             props.setnode(null);
             props.get_reviews();
+            props.setmessage(data.message);
+            props.setshowModal();
             props.onHide();
           }
         })
@@ -43,10 +46,34 @@ const EditReview = (props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            <div style={{ display: "flex", gap: "40%" }}>
-              <h4>From: {props.node && props.node.by_user}</h4>
-              <h4>To: {props.node && props.node.for_user}</h4>
-            </div>
+            {props.node && (
+              <div
+                style={{
+                  display: "flex",
+                  gap: "70%",
+                  // justifyContent: "center",
+                  // alignItems: "center",
+                  // flexWrap:""
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "500",
+                  }}
+                >
+                  From:{props.node.by_user}
+                </p>
+                <p
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "500",
+                  }}
+                >
+                  To:{props.node.for_user}
+                </p>
+              </div>
+            )}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -58,7 +85,7 @@ const EditReview = (props) => {
                   height: "300px",
                   borderRadius: "10px",
                   border: "0px",
-                  backgroundColor: "#ceecfb",
+                  backgroundColor: "rgb(238 238 238)",
                   resize: "none",
                 }}
                 id="description"

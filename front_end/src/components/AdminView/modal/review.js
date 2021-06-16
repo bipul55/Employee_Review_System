@@ -92,6 +92,7 @@ const Review = (props) => {
                   employees.map((node) => {
                     return (
                       <Checkbox
+                        style={{ margin: "10px" }}
                         key={node.id}
                         value={node.email}
                         //   checked={checked(node.email)}

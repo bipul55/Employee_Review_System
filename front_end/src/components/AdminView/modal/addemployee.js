@@ -1,36 +1,79 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
+import axios from "axios";
 import { Spinner } from "react-bootstrap";
 // import { FiCheckCircle } from "react-icons/fi";
 const AddEmployee = (props) => {
-  const addEmployee = async () => {
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+  const [profilePic, setProfilePic] = useState(null);
+  const [profilePicURL, setProfilePicURL] = useState(null);
+  const [name, setname] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setemail] = useState("");
 
+  const changePhoto = (e) => {
+    setProfilePic(e.target.files[0]);
+    setProfilePicURL(URL.createObjectURL(e.target.files[0]));
+  };
+  const addEmployee = async () => {
     if (!(name && email && password)) {
       window.alert("please enter all the parameters");
     } else {
-      const result = await fetch("http://localhost:9000/add-employee", {
-        method: "POST",
+      // const result = await fetch("http://localhost:9000/add-employee", {
+      //   method: "POST",
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/json;charset=utf-8",
+      //   },
+      //   body: JSON.stringify({ name: name, email: email, password: password }),
+      // })
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     if (data.success) {
+      //       props.get_employees();
+      //       props.onHide();
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+      const config = {
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json;charset=utf-8",
+          "content-type": "multipart/form-data",
         },
-        body: JSON.stringify({ name: name, email: email, password: password }),
-      })
-        .then((response) => response.json())
+      };
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("profilePic", profilePic);
+      formData.append("name", name);
+      formData.append("password", password);
+
+      axios
+        .post(`http://localhost:9000/add-employee`, formData, config)
         .then((data) => {
-          if (data.success) {
+          console.log(data, "data");
+          if (data.data.success) {
             props.get_employees();
+            props.setmessage(data.data.message);
+            props.setshowModal();
             props.onHide();
           }
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((error) => {});
     }
   };
+  useEffect(() => {
+    console.log("logged");
+    if (props.node) {
+      setname(props.node.name);
+      setPassword(props.node.password);
+      setemail(props.node.email);
+      setProfilePicURL(null);
+    }
+  }, [props.node]);
+  useEffect(() => {
+    setProfilePicURL(null);
+    console.log("rendered");
+  }, []);
   return (
     <div>
       <Modal
@@ -49,14 +92,50 @@ const AddEmployee = (props) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            gap: "10%",
+            flexWrap: "wrap",
           }}
         >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <input
+              type="file"
+              id="profile_pic"
+              style={{ display: "none" }}
+              onChange={changePhoto}
+            />
+            <img
+              src={
+                profilePicURL
+                  ? profilePicURL
+                  : `http://localhost:9000/get-image/null`
+              }
+              style={{
+                height: "200px",
+                width: "200px",
+              }}
+            ></img>
+            <label
+              for="profile_pic"
+              style={{
+                transform: "translate(-293%, 275%)",
+              }}
+            >
+              <div className="btn btn-dark btn-sm">Edit</div>
+            </label>
+          </div>
           <div>
             Name:{" "}
             <input
               type="text"
               id="name"
-              placeholder="Name"
+              onChange={(e) => setname(e.target.value)}
+              value={name}
               className="form-control"
             />
             <br />
@@ -64,7 +143,8 @@ const AddEmployee = (props) => {
             <input
               type="text"
               id="email"
-              placeholder="Email"
+              onChange={(e) => setemail(e.target.value)}
+              value={email}
               className="form-control"
             />
             <br />
@@ -72,7 +152,8 @@ const AddEmployee = (props) => {
             <input
               type="text"
               id="password"
-              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
               className="form-control"
             />
             <br />

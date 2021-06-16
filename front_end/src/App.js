@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Router from "./router";
+import "./App.scss";
 export const LogedUser = React.createContext();
 const jwt = require("jsonwebtoken");
 

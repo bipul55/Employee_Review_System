@@ -15,11 +15,12 @@ const Container = () => {
         minHeight: "100vh",
       }}
     >
-      <div>
+      {/* <div>
         <Tab.Container id="left-tabs-example" defaultActiveKey="Employees">
           <Row>
             <Col
               sm={3}
+              className="tabs-admin"
               style={{
                 backgroundColor: "rgb(249 249 253)",
                 height: "100vh",
@@ -35,13 +36,20 @@ const Container = () => {
                 <Nav.Item>
                   <Nav.Link eventKey="Reviews">Reviews</Nav.Link>
                 </Nav.Item>
-
-                <Nav.Item>
-                  <Nav.Link eventKey="logout" onClick={logout}>
-                    Logout
-                  </Nav.Link>
-                </Nav.Item>
               </Nav>
+              <div
+                className="btn btn-lg btn-dark"
+                onClick={logout}
+                style={{
+                  width: "80%",
+                  position: "absolute",
+                  bottom: "30px",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                }}
+              >
+                Logout
+              </div>
             </Col>
             <Col
               sm={9}
@@ -66,7 +74,44 @@ const Container = () => {
             </Col>
           </Row>
         </Tab.Container>
-      </div>
+      </div> */}
+      <Tab.Container defaultActiveKey="Employees">
+        <Row>
+          <Col sm={3}>
+            <Nav variant="pills" className=" tabs-admin">
+              <Nav.Item>
+                <Nav.Link eventKey="Employees">Employees</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="Reviews">Reviews</Nav.Link>
+              </Nav.Item>
+              <div
+                className="btn btn-sm btn-dark admin-logout"
+                onClick={logout}
+                // style={{
+                //   width: "80%",
+                //   position: "absolute",
+                //   bottom: "30px",
+                //   left: "50%",
+                //   transform: "translateX(-50%)",
+                // }}
+              >
+                Logout
+              </div>
+            </Nav>
+          </Col>
+          <Col sm={9}>
+            <Tab.Content>
+              <Tab.Pane eventKey="Employees">
+                <Employee />
+              </Tab.Pane>
+              <Tab.Pane eventKey="Reviews">
+                <Reviews />
+              </Tab.Pane>
+            </Tab.Content>
+          </Col>
+        </Row>
+      </Tab.Container>
     </div>
   );
 };
